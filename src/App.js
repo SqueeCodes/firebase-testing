@@ -8,6 +8,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import Skeleton from "./components/Skeleton";
+import img from './assets/img.png';
+
 
 function App() {
   const [user, setUser] = React.useState(null);
@@ -68,12 +70,12 @@ function App() {
         <div className="row">
           <div className="img__wrapper">
             <figure>
-              <img src="./assets/img.png" alt="App logo"></img>
+              <img src={img} className="logo__img" alt="App logo" />
             </figure>
           </div>
           <div className="btns__wrapper">
             {loading ? (
-              <Skeleton width="100px" height="20px" />
+              <Skeleton width="56px" height="56px" />
             ) : user ? (
               <button className="logout__btn" onClick={logout}>
                 {user.email[0].toUpperCase()}
