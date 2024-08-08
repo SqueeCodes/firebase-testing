@@ -13,10 +13,8 @@ function App() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-
     onAuthStateChanged(auth, (user) => {
-      setLoading(false)
-      console.log(user);
+      setLoading(false);
       if (user) {
         setUser(user);
       }
@@ -45,16 +43,42 @@ function App() {
   }
 
   function logout() {
-    signOut(auth);
-    setUser({});
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
     <div className="App">
-      <button onClick={register}>Register</button>
-      <button onClick={login}>Login</button>
-      <button onClick={logout}>Logout</button>
-      {loading ? 'loading...' : user.email}
+      <div className="container">
+        <div className="row">
+          <div className="img__wrapper">
+            <figure>
+              <img src="./assets/img.png"></img>
+            </figure>
+          </div>
+          <div className="btns__wrapper">
+            {user ? (
+              <button className="logout__btn" onClick={logout}>
+                {loading ? "loading..." : user.email[0].toUpperCase()}
+              </button>
+            ) : (
+              <>
+                <button className="login__btn" onClick={login}>
+                  Login
+                </button>
+                <button className="register__btn" onClick={register}>
+                  Register
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

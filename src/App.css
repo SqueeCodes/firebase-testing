@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+
+.conatiner {
+  max-width: 1600px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login__btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  margin-right: 12px;
+  background-color: #cbcbcb;
+  font-weight: bolder;
+  color: #242424;
+}
+
+.register__btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  margin-right: 12px;
+  background-color: slateblue;
+  color: whitesmoke;
+  border: none;
+}
+
+.login__btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: none;
+}
+
+.logout__btn {
+  padding: 2px 14px;
+  border-radius: 50%;
+  border: none;
+  margin-right: 12px;
+  background-color: slateblue;
+  color: whitesmoke;
+  font-size: 42px;
+}
