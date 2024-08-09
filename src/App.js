@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { auth, db } from "./firebase/init";
-import { collection, addDoc, getDocs, getDoc, doc, query, where } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -15,6 +15,17 @@ import img from './assets/img.png';
 function App() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+
+  function updatePost() {
+    const hardcodedId = "FBFrVhKNYC030E1uSa8I";
+    const postRef = doc(db, "posts", hardcodedId);
+    const post = {
+      description: "Finish Frontend Simplified",
+      uid: "1",
+      title: "Land a 300k Job."
+    };
+    updateDoc
+  }
 
   function createPost() {
     const post = {
@@ -43,8 +54,10 @@ function App() {
     const postCollectionRef = await query(
       collection(db, "posts"),
       where("uid", "==", user.uid)
+    );
+    const { docs } = await getDocs(postCollectionRef);
+    console.log(docs.map(doc => doc.data()));
 
-    )
   }
 
   React.useEffect(() => {
@@ -125,6 +138,7 @@ function App() {
             <button onClick={createPost}>Create Post</button>
             <button onClick={getAllPosts}>Show Posts</button>
             <button onClick={getPostById}>Show Posts by ID</button>
+            <button onClick={getPostByUid}>Show Posts by UID</button>
           </div>
         </div>
       </div>
