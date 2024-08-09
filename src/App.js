@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { auth, db } from "./firebase/init";
-import { collection, addDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,8 +18,9 @@ function App() {
 
   function createPost() {
     const post = {
-      title: "Land a 100k job",
-      description: "Finish Frontedn Simplified",
+      title: "Finish interview section",
+      description: "Do Frontend Simplified",
+      uid: user.uid,
     };
     addDoc(collection(db, "posts"), post)
   }
@@ -36,6 +37,14 @@ function App() {
     const postSnap = await getDoc(postRef);
     const post = postSnap.data();
     console.log(post);
+  }
+
+  async function getPostByUid() {
+    const postCollectionRef = await query(
+      collection(db, "posts"),
+      where("uid", "==", user.uid)
+
+    )
   }
 
   React.useEffect(() => {
