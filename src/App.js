@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { auth, db } from "./firebase/init";
-import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, doc, query, where, updateDoc, deleteDoc } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,15 +16,23 @@ function App() {
   const [user, setUser] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
-  function updatePost() {
+  async function updatePost() {
     const hardcodedId = "FBFrVhKNYC030E1uSa8I";
     const postRef = doc(db, "posts", hardcodedId);
-    const post = {
-      description: "Finish Frontend Simplified",
-      uid: "1",
-      title: "Land a 300k Job."
+    const post = await getPostById(hardcodedId);
+    console.log(post);
+    const newPost = {
+      ...post,
+      title: "Land a 400k Job."
     };
-    updateDoc
+    console.log(newPost)
+    updateDoc(postRef, newPost);
+  }
+
+  function deletePost() {
+    const hardcodedId = "FBFrVhKNYC030E1uSa8I";
+    const postRef = doc(db, "posts", hardcodedId);
+    deleteDoc(postRef)
   }
 
   function createPost() {
@@ -42,12 +50,11 @@ function App() {
     console.log(posts)
   }
 
-  async function getPostById() {
+  async function getPostById(id) {
     const hardcodedId = "FBFrVhKNYC030E1uSa8I";
-    const postRef = doc(db, "posts", hardcodedId);
+    const postRef = doc(db, "posts", id);
     const postSnap = await getDoc(postRef);
-    const post = postSnap.data();
-    console.log(post);
+    return postSnap.data();
   }
 
   async function getPostByUid() {
@@ -139,6 +146,8 @@ function App() {
             <button onClick={getAllPosts}>Show Posts</button>
             <button onClick={getPostById}>Show Posts by ID</button>
             <button onClick={getPostByUid}>Show Posts by UID</button>
+            <button onClick={updatePost}>Update Post</button>
+            <button onClick={deletePost}>Delete Post</button>
           </div>
         </div>
       </div>
